@@ -102,3 +102,137 @@ export interface ThemePreset {
   colors: ThemeColors;
   fonts: ThemeFonts;
 }
+
+export interface ProjectData {
+  id: string;
+  portfolioId: string;
+  title: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CVSectionData {
+  id: string;
+  userId: string;
+  bio?: string;
+  skills: CVSkill[];
+  experience: CVExperience[];
+  education: CVEducation[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CVSkill {
+  name: string;
+  level: number;
+}
+
+export interface CVExperience {
+  title: string;
+  company: string;
+  startDate: string;
+  endDate?: string;
+  description?: string;
+}
+
+export interface CVEducation {
+  school: string;
+  degree: string;
+  field: string;
+  startDate: string;
+  endDate?: string;
+}
+
+export interface SocialLinkData {
+  id: string;
+  userId: string;
+  platform: string;
+  url: string;
+  label?: string;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  portfolioSlug?: string;
+}
+
+export interface PostData {
+  id: string;
+  authorId: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  coverImage?: string;
+  isPublished: boolean;
+  publishedAt?: string;
+  tags: PostTag[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PostTag {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface CreatePostRequest {
+  title: string;
+  content: string;
+  excerpt?: string;
+  coverImage?: string;
+  isPublished?: boolean;
+  tags?: string[];
+}
+
+export interface AnalyticsSummary {
+  totalViews: number;
+  uniqueVisitors: number;
+  topPage: string;
+  todayViews: number;
+}
+
+export interface ChartDataPoint {
+  date: string;
+  count: number;
+}
+
+export interface PageCount {
+  path: string;
+  count: number;
+}
+
+export interface ReferrerCount {
+  referrer: string;
+  count: number;
+}
+
+export interface ExportOptions {
+  includeProjects?: boolean;
+  includeCV?: boolean;
+  theme?: string;
+}
+
+export interface PublicPortfolio {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  template: string;
+  theme: string;
+  projects?: ProjectData[];
+  cv?: CVSectionData;
+  socialLinks?: SocialLinkData[];
+  customDomain?: string;
+}
