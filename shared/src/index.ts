@@ -51,28 +51,75 @@ export interface JwtPayload {
   email: string;
 }
 
+export interface SocialLink {
+  platform: string;
+  url: string;
+  label?: string;
+}
+
+export interface SeoMeta {
+  title?: string;
+  description?: string;
+  keywords?: string;
+}
+
 export interface Portfolio {
   id: string;
   userId: string;
   title: string;
+  slug: string;
   description: string;
   template: string;
   published: boolean;
+  socialLinks: SocialLink[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  customDomain?: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface CreatePortfolioRequest {
   title: string;
+  slug?: string;
   description: string;
   template: string;
+  socialLinks?: SocialLink[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  customDomain?: string;
 }
 
 export interface UpdatePortfolioRequest {
   title?: string;
+  slug?: string;
   description?: string;
   template?: string;
   published?: boolean;
+  socialLinks?: SocialLink[];
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
+  customDomain?: string;
+}
+
+export interface ContactRequest {
+  name: string;
+  email: string;
+  message: string;
+  portfolioId: string;
+}
+
+export interface ContactResponse {
+  sent: boolean;
+  messageId?: string;
+}
+
+export interface ExportedPortfolio {
+  html: string;
+  portfolio: Portfolio;
 }
 
 export interface Theme {

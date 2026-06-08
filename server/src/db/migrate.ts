@@ -6,10 +6,20 @@ export async function runMigrations(): Promise<void> {
   const client = await pool.connect();
 
   try {
-    const migrationPath = path.join(__dirname, "migrations", "001_init.sql");
-    const sql = fs.readFileSync(migrationPath, "utf-8");
-    await client.query(sql);
-    console.log("Migrations applied successfully");
+    const migrationsDir = path.join(__dirname, "migrations");
+    const files = fs
+      .readdirSync(migrationsDir)
+      .filter((f) => f.endsWith(".sql"))
+      .sort();
+
+    for (const file of files) {
+      const filePath = path.join(migrationsDir, file);
+      const sql = fs.readFileSync(filePath, "utf-8");
+      await client.query(sql);
+      console.log(`Migration applied: ${file}`);
+    }
+
+    console.log("All migrations applied successfully");
   } catch (err) {
     console.error("Migration error:", err);
     throw err;
