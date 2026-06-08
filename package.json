@@ -1,0 +1,14 @@
+{
+  "name": "devfolio",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspace=server",
+    "start": "npm run start --workspace=server"
+  }
+}
