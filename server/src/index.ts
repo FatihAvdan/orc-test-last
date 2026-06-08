@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { healthRouter } from "./routes/health";
 import { errorHandler } from "./middleware/error-handler";
+import { requestLogger } from "./middleware/request-logger";
 import { logger } from "./config/logger";
 import { corsConfig } from "./config/cors";
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors(corsConfig));
 app.use(express.json());
+app.use(requestLogger);
 
 app.use("/api/health", healthRouter);
 
