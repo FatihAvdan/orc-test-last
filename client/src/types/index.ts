@@ -70,6 +70,7 @@ export interface CreatePortfolioRequest {
   title: string;
   description: string;
   template: string;
+  published?: boolean;
 }
 
 export interface UpdatePortfolioRequest {

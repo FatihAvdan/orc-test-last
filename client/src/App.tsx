@@ -21,6 +21,7 @@ export default function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/portfolios" element={<PortfoliosPage />} />
+              <Route path="/portfolios/new" element={<PortfolioEditPage />} />
               <Route path="/portfolios/:id/edit" element={<PortfolioEditPage />} />
             </Route>
           </Route>

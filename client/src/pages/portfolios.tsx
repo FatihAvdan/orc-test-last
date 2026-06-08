@@ -1,24 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
-import type { Portfolio, ApiResponse, CreatePortfolioRequest } from "@/types";
+import type { Portfolio, ApiResponse } from "@/types";
 import { PortfolioCard } from "@/components/portfolio/portfolio-card";
 import { Button } from "@/components/ui/button";
 import { Plus, FolderOpen } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function PortfoliosPage() {
   const navigate = useNavigate();
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [showCreate, setShowCreate] = useState(false);
   const [showDelete, setShowDelete] = useState<Portfolio | null>(null);
-  const [createTitle, setCreateTitle] = useState("");
-  const [createDesc, setCreateDesc] = useState("");
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const fetchPortfolios = useCallback(async () => {
@@ -38,28 +32,6 @@ export default function PortfoliosPage() {
     fetchPortfolios();
   }, [fetchPortfolios]);
 
-  async function handleCreate(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    setSaving(true);
-    try {
-      const data: CreatePortfolioRequest = {
-        title: createTitle,
-        description: createDesc,
-        template: "default",
-      };
-      await api.post<ApiResponse<Portfolio>>("/portfolios", data);
-      setShowCreate(false);
-      setCreateTitle("");
-      setCreateDesc("");
-      await fetchPortfolios();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create");
-    } finally {
-      setSaving(false);
-    }
-  }
-
   async function handleDelete() {
     if (!showDelete) return;
     try {
@@ -78,7 +50,7 @@ export default function PortfoliosPage() {
           <h1 className="text-3xl font-bold">Portfolios</h1>
           <p className="text-muted-foreground">Browse and manage all your portfolios</p>
         </div>
-        <Button onClick={() => setShowCreate(true)}>
+        <Button onClick={() => navigate("/portfolios/new")}>
           <Plus className="mr-2 h-4 w-4" />
           New Portfolio
         </Button>
@@ -103,7 +75,7 @@ export default function PortfoliosPage() {
               Create your first portfolio to get started
             </p>
           </div>
-          <Button onClick={() => setShowCreate(true)}>
+          <Button onClick={() => navigate("/portfolios/new")}>
             <Plus className="mr-2 h-4 w-4" />
             Create Portfolio
           </Button>
@@ -121,48 +93,6 @@ export default function PortfoliosPage() {
           ))}
         </div>
       )}
-
-      <Dialog open={showCreate} onOpenChange={setShowCreate}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create Portfolio</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCreate} className="space-y-4">
-            {error && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                {error}
-              </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="create-title">Title</Label>
-              <Input
-                id="create-title"
-                value={createTitle}
-                onChange={(e) => setCreateTitle(e.target.value)}
-                placeholder="My Portfolio"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="create-desc">Description</Label>
-              <Input
-                id="create-desc"
-                value={createDesc}
-                onChange={(e) => setCreateDesc(e.target.value)}
-                placeholder="A short description"
-              />
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setShowCreate(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={saving}>
-                {saving ? "Creating..." : "Create"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={!!showDelete} onOpenChange={() => setShowDelete(null)}>
         <DialogContent>
