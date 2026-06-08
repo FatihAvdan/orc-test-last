@@ -1,4 +1,4 @@
-type LogLevel = "debug" | "info" | "warn" | "error";
+import type { LogLevel, Logger } from "@devfolio/shared";
 
 const LOG_LEVELS: Record<LogLevel, number> = {
   debug: 0,
@@ -20,7 +20,7 @@ function formatMessage(level: LogLevel, message: string, meta?: unknown): string
   return `[${timestamp}] ${level.toUpperCase()}: ${message}${metaStr}`;
 }
 
-export const logger = {
+export const logger: Logger = {
   debug(message: string, meta?: unknown): void {
     if (shouldLog("debug")) {
       console.debug(formatMessage("debug", message, meta));

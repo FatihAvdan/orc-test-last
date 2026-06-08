@@ -1,3 +1,5 @@
+export type { LogLevel, Logger } from "./logger";
+
 export interface User {
   id: string;
   email: string;
