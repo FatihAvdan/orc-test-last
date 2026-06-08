@@ -117,6 +117,15 @@ export interface ContactResponse {
   messageId?: string;
 }
 
+export interface ContactSubmission {
+  id: string;
+  portfolioId: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface ExportedPortfolio {
   html: string;
   portfolio: Portfolio;

@@ -19,13 +19,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/", publicRouter);
 app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/portfolios", portfolioRouter);
 app.use("/api/portfolios", exportRouter);
 app.use("/api/themes", themeRouter);
 app.use("/api/contact", contactRouter);
+app.use("/", publicRouter);
 
 app.use(errorHandler);
 
