@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import { logger } from "./logger";
 
 const pool = new Pool({
   host: process.env.PG_HOST || "localhost",
@@ -12,7 +13,7 @@ const pool = new Pool({
 });
 
 pool.on("error", (err) => {
-  console.error("Unexpected PostgreSQL pool error:", err);
+  logger.error("Unexpected PostgreSQL pool error", { message: err.message });
 });
 
 export async function query(text: string, params?: unknown[]) {

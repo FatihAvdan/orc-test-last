@@ -1,4 +1,5 @@
 import Redis from "ioredis";
+import { logger } from "./logger";
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || "localhost",
@@ -13,11 +14,11 @@ const redis = new Redis({
 });
 
 redis.on("error", (err) => {
-  console.error("Redis client error:", err);
+  logger.error("Redis client error", { message: err.message });
 });
 
 redis.on("connect", () => {
-  console.log("Connected to Redis");
+  logger.info("Connected to Redis");
 });
 
 export async function checkRedisConnection(): Promise<boolean> {

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse } from "@devfolio/shared";
+import { logger } from "../config/logger";
 
 export class AppError extends Error {
   public statusCode: number;
@@ -20,7 +21,7 @@ export function errorHandler(
   const statusCode = err instanceof AppError ? err.statusCode : 500;
   const message = err.message || "Internal Server Error";
 
-  console.error(`[Error] ${statusCode}: ${message}`);
+  logger.error(`Request error`, { statusCode, message });
 
   const response: ApiResponse = {
     success: false,
