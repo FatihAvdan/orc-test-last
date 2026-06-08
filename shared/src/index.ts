@@ -1,3 +1,4 @@
+export { logger } from "./logger";
 export type { LogLevel, Logger } from "./logger";
 
 export interface User {
