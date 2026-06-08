@@ -12,7 +12,7 @@ export default function PortfolioEditPage() {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const isCreate = id === "new";
+  const isCreate = !id;
 
   useEffect(() => {
     if (isCreate) {
@@ -35,9 +35,10 @@ export default function PortfolioEditPage() {
     try {
       if (isCreate) {
         const res = await api.post<ApiResponse<Portfolio>>("/portfolios", data);
-        if (res.success && res.data) {
-          navigate(`/portfolios/${res.data.id}/edit`);
+        if (!res.success || !res.data) {
+          throw new Error(res.error || "Failed to create portfolio");
         }
+        navigate(`/portfolios/${res.data.id}/edit`);
       } else {
         await api.put<ApiResponse<Portfolio>>(`/portfolios/${id}`, data);
         navigate("/dashboard");
